@@ -57,6 +57,7 @@ public class PercolationStats {
         return mean() + ((1.96 * stddev()) / Math.sqrt(experiments));
     }
 
+    // test client
     public static void main(String[] args)
     {
         PercolationStats ps = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1]));

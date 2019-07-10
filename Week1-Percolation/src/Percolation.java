@@ -1,7 +1,7 @@
  /***********************************************************
  * AUTHOR: Filip Matic
  * Title: Percolation.java
- * Description: 
+ * Description: This program creates an n x n grid of 
  ************************************************************/
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
@@ -14,6 +14,7 @@ public class Percolation {
     private WeightedQuickUnionUF uf2;
     private int len;
 
+    // create N-by-N grid, with all sites blocked
     public Percolation(int n)
     {
         if (n <= 0) 
@@ -29,6 +30,7 @@ public class Percolation {
         len       = n;
     }
 
+    // open site (row i, column j) if it is not open already
     public void open(int i, int j)
     {
         if (checkIndex(i, j)) 
@@ -64,6 +66,7 @@ public class Percolation {
         }
     }
 
+    // is site (row i, column j) open?
     public boolean isOpen(int i, int j)
     {
         if (checkIndex(i, j)) 
@@ -73,6 +76,7 @@ public class Percolation {
         throw new IndexOutOfBoundsException();
     }
 
+    // is site (row i, column j) full?
     public boolean isFull(int i, int j)
     {
         if (checkIndex(i, j)) 
@@ -82,11 +86,13 @@ public class Percolation {
         throw new IndexOutOfBoundsException();
     }
 
+    // returns the number of open sites
     public int numberOfOpenSites()
     {
         return countOpen;
     }
 
+    // does the system percolate?
     public boolean percolates()
     {
         return uf.connected(top, bottom);
