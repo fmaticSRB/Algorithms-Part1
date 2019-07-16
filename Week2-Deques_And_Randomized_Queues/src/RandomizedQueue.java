@@ -113,7 +113,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return new RandomIterator();
     }
 
-
     private class RandomIterator implements Iterator<Item> {
 
         private Item[] iteratorItems;
@@ -157,5 +156,4 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new UnsupportedOperationException("Remove is not supported");
         }
     }
-
 }

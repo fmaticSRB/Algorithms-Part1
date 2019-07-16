@@ -4,16 +4,21 @@ import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 
+    // construct an empty deque
+    public Deque() 
+    {
     private InternalItem<Item> firstItem = null;
     private InternalItem<Item> lastItem = null;
     private int size = 0;
+    }
 
-
-    public boolean isEmpty() {
+    public boolean isEmpty() 
+    {
         return size == 0;
     }
 
-    public int size() {
+    public int size() 
+    {
         return size;
     }
 
@@ -152,6 +157,5 @@ public class Deque<Item> implements Iterable<Item> {
         {
             throw new UnsupportedOperationException("Remove is not supported");
         }
-    }
-
+    } 
 }
