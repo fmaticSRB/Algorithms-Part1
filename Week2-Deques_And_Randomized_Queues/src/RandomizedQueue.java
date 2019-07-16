@@ -3,9 +3,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/**
- * Created by Ingo on 15.09.2015.
- */
+
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private static final int MINIMUM_STORAGE_SIZE = 2;
@@ -13,33 +11,45 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] items;
     private int size;
 
-    public RandomizedQueue() {
+    public RandomizedQueue() 
+    {
         items = (Item[]) new Object[MINIMUM_STORAGE_SIZE];
         size = 0;
     }
 
-    public boolean isEmpty() {  // is the queue empty?
+    // is the queue empty?
+    public boolean isEmpty() 
+    {  
         return size == 0;
     }
 
-    public int size() {  // return the number of items on the queue
+    // return the number of items on the queue
+    public int size() 
+    {
         return size;
     }
 
-    public void enqueue(Item item) {  // add the item
-        if (item == null) {
+    // add the item
+    public void enqueue(Item item) 
+    {  
+        if (item == null) 
+        {
             throw new NullPointerException("It is not allowed to enqueue null values.");
         }
 
-        if (isStorageFull()) {
+        if (isStorageFull()) 
+        {
             doubleStorage();
         }
 
         items[size++] = item;
     }
 
-    public Item dequeue() {  // remove and return a random item
-        if (size == 0) {
+    // remove and return a random item
+    public Item dequeue() 
+    {  
+        if (size == 0) 
+        {
             throw new NoSuchElementException("Trying to dequeue an item from an empty RandomQueue.");
         }
 
@@ -49,30 +59,36 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         items[indexOfItemToReturn] = items[size];
         items[size] = null;
 
-        if (isStorageOversized()) {
+        if (isStorageOversized()) 
+        {
             halveStorage();
         }
 
         return returnValue;
     }
 
-    private boolean isStorageFull() {
+    private boolean isStorageFull() 
+    {
         return items.length == size;
     }
 
-    private boolean isStorageOversized() {
+    private boolean isStorageOversized() 
+    {
         return items.length > MINIMUM_STORAGE_SIZE && size <= items.length / 4;
     }
 
-    private void halveStorage() {
+    private void halveStorage() 
+    {
         resizeStorage(items.length / 2);
     }
 
-    private void doubleStorage() {
+    private void doubleStorage() 
+    {
         resizeStorage(items.length * 2);
     }
 
-    private void resizeStorage(int newSize) {
+    private void resizeStorage(int newSize) 
+    {
         Item[] newItemStorage = (Item[]) new Object[newSize];
         for (int i = 0; i < size; i++) {
             newItemStorage[i] = items[i];
@@ -80,7 +96,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         items = newItemStorage;
     }
 
-    public Item sample() {  // return (but do not remove) a random item
+    // return (but do not remove) a random item
+    public Item sample() 
+    {  
         if (size == 0) {
             throw new NoSuchElementException("Trying to sample an item from an empty RandomQueue.");
         }
@@ -90,7 +108,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Item> iterator() 
+    {
         return new RandomIterator();
     }
 
@@ -100,12 +119,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         private Item[] iteratorItems;
         private int index;
 
-        public RandomIterator() {
+        public RandomIterator() 
+        {
             iteratorItems = copyRandomQueueItems();
             StdRandom.shuffle(iteratorItems);
         }
 
-        private Item[] copyRandomQueueItems() {
+        private Item[] copyRandomQueueItems() 
+        {
             Item[] copiedItems = (Item[]) new Object[size];
             for (int i = 0; i < size; i++) {
                 copiedItems[i] = items[i];
@@ -114,13 +135,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         @Override
-        public boolean hasNext() {
+        public boolean hasNext() 
+        {
             return index < iteratorItems.length;
         }
 
         @Override
-        public Item next() {
-            if (hasNext()) {
+        public Item next() 
+        {
+            if (hasNext()) 
+            {
                 return iteratorItems[index++];
             } else {
                 throw new NoSuchElementException();
@@ -128,7 +152,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         @Override
-        public void remove() {
+        public void remove() 
+        {
             throw new UnsupportedOperationException("Remove is not supported");
         }
     }

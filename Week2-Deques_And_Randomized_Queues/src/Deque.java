@@ -2,11 +2,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-/**
- * A queue implementation that allows adding and removing elements at the start and at the end.
- *
- * @author ISchwarz
- */
 public class Deque<Item> implements Iterable<Item> {
 
     private InternalItem<Item> firstItem = null;
@@ -22,17 +17,21 @@ public class Deque<Item> implements Iterable<Item> {
         return size;
     }
 
-    public void addFirst(Item item) {
-        if (item == null) {
+    public void addFirst(Item item) 
+    {
+        if (item == null) 
+        {
             throw new NullPointerException("Can't add null to the deque.");
         }
 
-        if (firstItem == null) {
+        if (firstItem == null) 
+        {
             InternalItem<Item> onlyItem = new InternalItem<>();
             onlyItem.value = item;
             firstItem = onlyItem;
             lastItem = onlyItem;
-        } else {
+        } else 
+        {
             InternalItem<Item> oldFirstItem = firstItem;
             firstItem = new InternalItem<>();
             firstItem.value = item;
@@ -43,17 +42,21 @@ public class Deque<Item> implements Iterable<Item> {
         size++;
     }
 
-    public void addLast(Item item) {
-        if (item == null) {
+    public void addLast(Item item) 
+    {
+        if (item == null) 
+        {
             throw new NullPointerException("Can't add null to the deque.");
         }
 
-        if (lastItem == null) {
+        if (lastItem == null) 
+        {
             InternalItem<Item> onlyItem = new InternalItem<>();
             onlyItem.value = item;
             firstItem = onlyItem;
             lastItem = onlyItem;
-        } else {
+        } else 
+        {
             InternalItem<Item> oldLastItem = lastItem;
             lastItem = new InternalItem<>();
             lastItem.value = item;
@@ -64,16 +67,20 @@ public class Deque<Item> implements Iterable<Item> {
         size++;
     }
 
-    public Item removeFirst() {
-        if (firstItem == null) {
+    public Item removeFirst() 
+    {
+        if (firstItem == null) 
+        {
             throw new NoSuchElementException("Client tries to remove an Item from empty deque.");
         }
 
         InternalItem<Item> oldFirstItem = firstItem;
         firstItem = firstItem.nextItem;
-        if (firstItem == null) {
+        if (firstItem == null) 
+        {
             lastItem = null;
-        } else {
+        } else 
+        {
             firstItem.previousItem = null;
         }
         size--;
@@ -81,16 +88,20 @@ public class Deque<Item> implements Iterable<Item> {
         return oldFirstItem.value;
     }
 
-    public Item removeLast() {
-        if (lastItem == null) {
+    public Item removeLast() 
+    {
+        if (lastItem == null) 
+        {
             throw new NoSuchElementException("Client tries to remove an Item from empty deque.");
         }
 
         InternalItem<Item> oldLastItem = lastItem;
         lastItem = oldLastItem.previousItem;
-        if (lastItem == null) {
+        if (lastItem == null) 
+        {
             firstItem = null;
-        } else {
+        } else 
+        {
             lastItem.nextItem = null;
         }
         size--;
@@ -99,29 +110,35 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
 
-    private static class InternalItem<Item> {
+    private static class InternalItem<Item> 
+    {
         private Item value;
         private InternalItem<Item> nextItem;
         private InternalItem<Item> previousItem;
     }
 
     @Override
-    public Iterator<Item> iterator() {
+    public Iterator<Item> iterator() 
+    {
         return new ForwardIterator();
     }
 
-    private class ForwardIterator implements Iterator<Item> {
+    private class ForwardIterator implements Iterator<Item> 
+    {
 
         private InternalItem<Item> currentItem = firstItem;
 
         @Override
-        public boolean hasNext() {
+        public boolean hasNext() 
+        {
             return currentItem != null;
         }
 
         @Override
-        public Item next() {
-            if (!hasNext()) {
+        public Item next() 
+        {
+            if (!hasNext()) 
+            {
                 throw new NoSuchElementException("No next element available. Reached end of deque.");
             }
 
@@ -131,7 +148,8 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         @Override
-        public void remove() {
+        public void remove() 
+        {
             throw new UnsupportedOperationException("Remove is not supported");
         }
     }

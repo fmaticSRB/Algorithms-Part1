@@ -1,3 +1,9 @@
+ /***********************************************************
+ * AUTHOR: Filip Matic
+ * Title: Percolation.java
+ * Description: This program prints out the stats after testing
+ * the percolation.java file fultiple times. 
+ ************************************************************/
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.StdOut;
