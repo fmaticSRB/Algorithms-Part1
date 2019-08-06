@@ -1,7 +1,7 @@
  /***********************************************************
  * AUTHOR: Filip Matic
  * Title: KdTree.java
- * Description: 2D-Tree solution of 2D range and 
+ * Description: 2D-Tree solution of 2D range and
  * nearest calculations.
  ************************************************************/
 import edu.princeton.cs.algs4.Point2D;
