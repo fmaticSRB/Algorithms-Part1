@@ -62,8 +62,6 @@ public class BruteCollinearPoints
 
         this.numberOfSegments = lineSegments.size();
         this.lineSegments = lineSegments.toArray(new LineSegment[numberOfSegments]);
-
-
     }
 
     public int numberOfSegments()
@@ -75,7 +73,6 @@ public class BruteCollinearPoints
     {
         return Arrays.copyOf(this.lineSegments, numberOfSegments());
     }
-
 
 
     public static void main(String[] args) 
