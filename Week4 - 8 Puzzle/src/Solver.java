@@ -10,12 +10,14 @@ import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 
 
-public final class Solver {
+public final class Solver 
+{
     private final Stack<Board> solutionBoards;
     private boolean isSolvable;
 
-
-    public Solver(Board initial) {
+    // Find a solution to the initial board (Using the A* Algorithm)
+    public Solver(Board initial) 
+    {
         if (initial == null) throw new NullPointerException();
         isSolvable = false;
         solutionBoards = new Stack<>();
@@ -24,7 +26,8 @@ public final class Solver {
         searchNodes.insert(new SearchNode(initial, null));
         searchNodes.insert(new SearchNode(initial.twin(), null));
 
-        while (!searchNodes.min().board.isGoal()) {
+        while (!searchNodes.min().board.isGoal()) 
+        {
             SearchNode searchNode = searchNodes.delMin();
             for (Board board : searchNode.board.neighbors())
                 if (searchNode.prevNode == null || searchNode.prevNode != null && !searchNode.prevNode.board.equals(board))
@@ -32,7 +35,8 @@ public final class Solver {
         }
 
         SearchNode current = searchNodes.min();
-        while (current.prevNode != null) {
+        while (current.prevNode != null) 
+        {
             solutionBoards.push(current.board);
             current = current.prevNode;
         }
@@ -42,7 +46,9 @@ public final class Solver {
 
     }
 
-    public static void main(String[] args) {
+    // Test Client
+    public static void main(String[] args) 
+    {
         // create initial board from file
         In in = new In("8puzzle/puzzle3x3-unsolvable1.txt");
         int n = in.readInt();
@@ -65,27 +71,34 @@ public final class Solver {
         }
     }
 
-    public int moves() {
+    // Min number of moves to solve initial board
+    public int moves() 
+    {
         if (!isSolvable()) return -1;
         return solutionBoards.size() - 1;
     }
 
-    public Iterable<Board> solution() {
+    public Iterable<Board> solution() 
+    {
         if (isSolvable()) return solutionBoards;
         return null;
     }
 
-    public boolean isSolvable() {
+    // Is the initial board solvable?
+    public boolean isSolvable() 
+    {
         return isSolvable;
     }
 
-    private class SearchNode implements Comparable<SearchNode> {
+    private class SearchNode implements Comparable<SearchNode> 
+    {
         private final Board board;
         private final SearchNode prevNode;
         private int moves;
         private int manhattan;
 
-        public SearchNode(Board board, SearchNode prevNode) {
+        public SearchNode(Board board, SearchNode prevNode) 
+        {
             this.board = board;
             this.prevNode = prevNode;
             this.manhattan = board.manhattan();
@@ -94,7 +107,8 @@ public final class Solver {
         }
 
         @Override
-        public int compareTo(SearchNode that) {
+        public int compareTo(SearchNode that) 
+        {
             int priorityDiff = (this.manhattan + this.moves) - (that.manhattan + that.moves);
             return  priorityDiff == 0 ? this.manhattan - that.manhattan : priorityDiff;
         }
