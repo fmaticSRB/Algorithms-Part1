@@ -1,161 +1,145 @@
 import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 
 public class Deque<Item> implements Iterable<Item> {
+    private class Node {
+        private Item item;
+        private Node next;
+        private Node pre;
 
-    // construct an empty deque
-    public Deque() 
-    {
-    private InternalItem<Item> firstItem = null;
-    private InternalItem<Item> lastItem = null;
-    private int size = 0;
+        public Node(Item item, Node next, Node pre) {
+            this.item = item;
+            this.next = next;
+            this.pre = pre;
+        }
     }
 
-    public boolean isEmpty() 
-    {
-        return size == 0;
+
+    private class DIterator implements Iterator<Item> {
+        private Node current;
+
+        public DIterator() {
+            current = first;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (current == null) return false;
+            return true;
+        }
+
+        @Override
+        public Item next() {
+            if (!hasNext()) throw new java.util.NoSuchElementException();
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+
+        @Override
+        public void remove() {
+            throw new java.lang.UnsupportedOperationException();
+        }
     }
 
-    public int size() 
-    {
+    private DIterator iterator;
+    private Node first, last;
+    private int size;
+
+    public Deque() {// construct an empty deque
+        first = last = null;
+        size = 0;
+    }
+
+    public boolean isEmpty() {// is the deque empty?注意区判空条件和判满条件
+        return first == null;
+    }
+
+    public int size() {// return the number of items on the deque。
         return size;
     }
 
-    public void addFirst(Item item) 
-    {
-        if (item == null) 
-        {
-            throw new NullPointerException("Can't add null to the deque.");
+    public void addFirst(Item item) {// add the item to the front
+        if (item == null) throw new java.lang.IllegalArgumentException();
+        Node work = new Node(item, first, null);
+        if (isEmpty()) {
+            first = last = work;
+        } else {
+            first.pre = work;
+            first = first.pre;
         }
-
-        if (firstItem == null) 
-        {
-            InternalItem<Item> onlyItem = new InternalItem<>();
-            onlyItem.value = item;
-            firstItem = onlyItem;
-            lastItem = onlyItem;
-        } else 
-        {
-            InternalItem<Item> oldFirstItem = firstItem;
-            firstItem = new InternalItem<>();
-            firstItem.value = item;
-            firstItem.nextItem = oldFirstItem;
-            oldFirstItem.previousItem = firstItem;
-        }
-
         size++;
     }
 
-    public void addLast(Item item) 
-    {
-        if (item == null) 
-        {
-            throw new NullPointerException("Can't add null to the deque.");
+    public void addLast(Item item) {// add the item to the end
+        if (item == null) throw new java.lang.IllegalArgumentException();
+        Node work = new Node(item, null, last);
+        if (isEmpty()) {
+            first = last = work;
+        } else {
+            last.next = work;
+            last = last.next;
         }
-
-        if (lastItem == null) 
-        {
-            InternalItem<Item> onlyItem = new InternalItem<>();
-            onlyItem.value = item;
-            firstItem = onlyItem;
-            lastItem = onlyItem;
-        } else 
-        {
-            InternalItem<Item> oldLastItem = lastItem;
-            lastItem = new InternalItem<>();
-            lastItem.value = item;
-            lastItem.previousItem = oldLastItem;
-            oldLastItem.nextItem = lastItem;
-        }
-
         size++;
     }
 
-    public Item removeFirst() 
-    {
-        if (firstItem == null) 
-        {
-            throw new NoSuchElementException("Client tries to remove an Item from empty deque.");
-        }
-
-        InternalItem<Item> oldFirstItem = firstItem;
-        firstItem = firstItem.nextItem;
-        if (firstItem == null) 
-        {
-            lastItem = null;
-        } else 
-        {
-            firstItem.previousItem = null;
-        }
+    public Item removeFirst() {// remove and return the item from the front
+        if (isEmpty()) throw new java.util.NoSuchElementException();
         size--;
-
-        return oldFirstItem.value;
+        Node work = first;
+        if (first == last && first != null) {
+            first = last = null;
+            return work.item;
+        }
+        first = first.next;
+        work.next = null;
+        first.pre = null;
+        return work.item;
     }
 
-    public Item removeLast() 
-    {
-        if (lastItem == null) 
-        {
-            throw new NoSuchElementException("Client tries to remove an Item from empty deque.");
-        }
-
-        InternalItem<Item> oldLastItem = lastItem;
-        lastItem = oldLastItem.previousItem;
-        if (lastItem == null) 
-        {
-            firstItem = null;
-        } else 
-        {
-            lastItem.nextItem = null;
-        }
+    public Item removeLast() {// remove and return the item from the end
+        if (isEmpty()) throw new java.util.NoSuchElementException();
         size--;
+        Node work = last;
+        if (first == last && first != null) {
+            first = last = null;
+            return work.item;
 
-        return oldLastItem.value;
+        }
+        last = last.pre;
+        last.next = null;
+        work.pre = null;
+        return work.item;
     }
 
 
-    private static class InternalItem<Item> 
-    {
-        private Item value;
-        private InternalItem<Item> nextItem;
-        private InternalItem<Item> previousItem;
+    public Iterator<Item> iterator() {// return an iterator over items in order from front to end
+        iterator = new DIterator();
+        return iterator;
     }
 
-    @Override
-    public Iterator<Item> iterator() 
-    {
-        return new ForwardIterator();
+    public static void main(String[] args) {// unit testing (optional)
+        Deque<Integer> deque = new Deque<>();
+        deque.addLast(1);
+        deque.addFirst(3);
+        deque.addLast(1);
+        deque.addFirst(3);
+        deque.addLast(1);
+        deque.addFirst(3);
+        deque.addLast(1);
+        deque.addFirst(3);
+        deque.addLast(1);
+        deque.addFirst(3);
+        Iterator<Integer> iterator = deque.iterator();
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+        System.out.println(iterator.next());
+
     }
-
-    private class ForwardIterator implements Iterator<Item> 
-    {
-
-        private InternalItem<Item> currentItem = firstItem;
-
-        @Override
-        public boolean hasNext() 
-        {
-            return currentItem != null;
-        }
-
-        @Override
-        public Item next() 
-        {
-            if (!hasNext()) 
-            {
-                throw new NoSuchElementException("No next element available. Reached end of deque.");
-            }
-
-            Item returnValue = currentItem.value;
-            currentItem = currentItem.nextItem;
-            return returnValue;
-        }
-
-        @Override
-        public void remove() 
-        {
-            throw new UnsupportedOperationException("Remove is not supported");
-        }
-    } 
 }

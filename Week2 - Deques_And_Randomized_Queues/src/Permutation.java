@@ -1,21 +1,19 @@
 import edu.princeton.cs.algs4.StdIn;
 
+import java.util.Iterator;
 
 public class Permutation {
-
     public static void main(String[] args) {
-        String[] strings = StdIn.readAllStrings();
-
-        int k = Integer.parseInt(args[0]);
-
-        RandomizedQueue<String> randomizedQueue = new RandomizedQueue<>();
-        for (String string : strings) {
-            randomizedQueue.enqueue(string);
+        RandomizedQueue<String> rque = new RandomizedQueue<>();
+        int num = Integer.parseInt(args[0]);
+        //In in = new In(args[1]);
+        String str;
+        while (!StdIn.isEmpty()) {
+            str = StdIn.readString();
+            rque.enqueue(str);
         }
-
-        for (int i = 0; i < k; i++) {
-            System.out.println(randomizedQueue.dequeue());
-        }
+        Iterator<String> iterator = rque.iterator();
+        for (int i = 0; i < num; i++)
+            System.out.println(iterator.next());
     }
-
 }
