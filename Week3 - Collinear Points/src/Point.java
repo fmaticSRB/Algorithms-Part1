@@ -3,7 +3,6 @@
  * Title: Percolation.java
  * Description: Creates an immutable data type for points 
  * in the plane.
-
   ************************************************************/
 import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
