@@ -1,65 +1,87 @@
-
+ /***********************************************************
+ * AUTHOR: Filip Matic
+ * Title: RandomizedQueue.java
+ * Description: Implements a queue where the item removed
+ * is chosen at random among items in the data structure
+ ************************************************************/
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
 
-public class RandomizedQueue<Item> implements Iterable<Item> {
+public class RandomizedQueue<Item> implements Iterable<Item> 
+{
 
-    private class RIterator<Item> implements Iterator<Item> {
+    private class RIterator<Item> implements Iterator<Item> 
+    {
         private Item[] arr;
         private int current;
 
-        public RIterator(Item[] arr) {
+        public RIterator(Item[] arr) 
+        {
             int N = size();
             this.arr = (Item[]) new Object[N];
-            for (int i = 0; i < N; i++) {
+            for (int i = 0; i < N; i++) 
+            {
                 this.arr[i] = arr[i];
             }
             StdRandom.shuffle(this.arr);
         }
 
         @Override
-        public boolean hasNext() {
+        public boolean hasNext() 
+        {
             return current != arr.length;
         }
 
         @Override
-        public Item next() {
+        public Item next() 
+        {
             if (!hasNext()) throw new java.util.NoSuchElementException();
             return arr[current++];
         }
 
         @Override
-        public void remove() {
+        public void remove() 
+        {
             throw new java.lang.UnsupportedOperationException();
         }
     }
 
     private Item[] arr;
     private RIterator<Item> iterator;
-    private int q;//q记录添加下一个Item的位置
+    private int q;
 
-    public RandomizedQueue() {// construct an empty randomized queue
+    // construct an empty randomized queue
+    public RandomizedQueue() 
+    {
         arr = (Item[]) (new Object[2]);
         q = 0;
     }
 
-    public boolean isEmpty() {// is the randomized queue empty?
+    // is the randomized queue empty?
+    public boolean isEmpty() 
+    {
         return q == 0;
     }
 
-    public int size() {// return the number of items on the randomized queue
+    // return the number of items on the randomized queue
+    public int size() 
+    {
         return q;
     }
 
-    public void enqueue(Item item) {// add the item
+    // add the item
+    public void enqueue(Item item) 
+    {
         if (item == null) throw new java.lang.IllegalArgumentException();
         if (q == arr.length) resize(arr.length * 2);
         arr[q] = item;
         q = q + 1;
     }
 
-    public Item dequeue() {// remove and return a random item
+    // remove and return a random item
+    public Item dequeue() 
+    {
         if (isEmpty()) throw new java.util.NoSuchElementException();
         int num = StdRandom.uniform(size());
         Item item = arr[num];
@@ -70,18 +92,23 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return item;
     }
 
-    public Item sample() {// return a random item (but do not remove it)
+    // return a random item (but do not remove it)
+    public Item sample() 
+    {
         if (isEmpty()) throw new java.util.NoSuchElementException();
         int num = StdRandom.uniform(size());
         return arr[num];
     }
 
-    public Iterator<Item> iterator() {// return an independent iterator over items in random order
+    // return an independent iterator over items in random order
+    public Iterator<Item> iterator() 
+    {
         iterator = new RIterator<Item>(arr);
         return iterator;
     }
 
-    private void resize(int length) {
+    private void resize(int length) 
+    {
         Item[] newArr = (Item[]) (new Object[length]);
         int N = size();
         for (int i = 0; i < N; i++)
@@ -89,7 +116,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         arr = newArr;
     }
 
-    public static void main(String[] args) {// unit testing (optional)
+    // unit testing
+    public static void main(String[] args) {
         RandomizedQueue<Integer> rque = new RandomizedQueue<>();
         rque.enqueue(1);
         rque.enqueue(2);
