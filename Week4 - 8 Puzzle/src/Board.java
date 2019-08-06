@@ -8,14 +8,19 @@ import java.util.Arrays;
 import java.util.Stack;
 
 
-public final class Board {
+public final class Board 
+{
     private final int[][] blocks;
 
-    public Board(int[][] blocks) {
+    // create a board from an n-by-n array of tiles
+    // where tiles[row][col] tile at (row, col)
+    public Board(int[][] blocks) 
+    {
         this.blocks = copy(blocks);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         Board board = new Board(new int[][]{{1, 2, 3}, {4, 0, 6}, {7, 8, 5}});
         System.out.println(board.toString());
         for (Board board1 :
@@ -25,21 +30,25 @@ public final class Board {
 
     }
 
-    private int[][] copy(int[][] blocks) {
+    private int[][] copy(int[][] blocks) 
+    {
         int[][] copy = new int[blocks.length][blocks.length];
         for (int i = 0; i < blocks.length; i++) {
-            for (int j = 0; j < blocks.length; j++) {
+            for (int j = 0; j < blocks.length; j++) 
+            {
                 copy[i][j] = blocks[i][j];
             }
         }
         return copy;
     }
 
+    // String representation of this board
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
         s.append(dimension() + "\n");
-        for (int i = 0; i < blocks.length; i++) {
+        for (int i = 0; i < blocks.length; i++) 
+        {
             for (int j = 0; j < blocks.length; j++) {
                 s.append(String.format("%2d ", blocks[i][j]));
             }
@@ -48,12 +57,16 @@ public final class Board {
         return s.toString();
     }
 
-    public int dimension() {
+    // Board dimension n
+    public int dimension() 
+    {
         return blocks.length;
     }
 
+    // Does this board equal y
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) 
+    {
         if (obj == this) return true;
         if (obj == null) return false;
         if (obj.getClass() != this.getClass()) return false;
@@ -61,7 +74,9 @@ public final class Board {
         return Arrays.deepEquals(this.blocks, that.blocks);
     }
 
-    public Board twin() {
+    // A board that is obtained by exchanging any pair of tiles
+    public Board twin() 
+    {
         int[][] twinTiles = copy(this.blocks);
 
         if (twinTiles[0][0] != 0 && twinTiles[0][1] != 0)
@@ -70,7 +85,8 @@ public final class Board {
             return new Board(swap(1, 0, 1, 1));
     }
 
-    private int[][] swap(int i1, int j1, int i2, int j2) {
+    private int[][] swap(int i1, int j1, int i2, int j2) 
+    {
         int[][] copy = copy(blocks);
         int temp = copy[i1][j1];
         copy[i1][j1] = copy[i2][j2];
@@ -78,11 +94,15 @@ public final class Board {
         return copy;
     }
 
-    public boolean isGoal() {
+    // Is this board the goal board
+    public boolean isGoal() 
+    {
         return hamming() == 0;
     }
 
-    public Iterable<Board> neighbors() {
+    // All neighboring boards
+    public Iterable<Board> neighbors() 
+    {
         Stack<Board> neighbours = new Stack<>();
         int position = blankPosition();
         int i = position / dimension();
@@ -99,7 +119,8 @@ public final class Board {
         return neighbours;
     }
 
-    private int blankPosition() {
+    private int blankPosition() 
+    {
         for (int i = 0; i < blocks.length; i++)
             for (int j = 0; j < blocks.length; j++)
                 if (blocks[i][j] == 0)
@@ -107,7 +128,9 @@ public final class Board {
         return -1;
     }
 
-    public int hamming() {
+    // Number of tiles out of place
+    public int hamming() 
+    {
         int hamming = 0;
         for (int i = 0; i < blocks.length; i++)
             for (int j = 0; j < blocks.length; j++)
@@ -115,7 +138,9 @@ public final class Board {
         return hamming;
     }
 
-    public int manhattan() {
+    // Sum of Manhattan distances between tiles and goal
+    public int manhattan() 
+    {
         int manhattan = 0;
         for (int i = 0; i < blocks.length; i++)
             for (int j = 0; j < blocks.length; j++)
@@ -124,7 +149,8 @@ public final class Board {
         return manhattan;
     }
 
-    private int manhattanDistance(int i, int j, int square) {
+    private int manhattanDistance(int i, int j, int square) 
+    {
         square--;
         int horizontal = Math.abs(square % dimension() - j);
         int vertical = Math.abs(square / dimension() - i);
