@@ -4,7 +4,7 @@
  * Description: This program creates an n x n grid of blocked
  * sites. We will proceed to open the sites randomly until we
  * get a system that percolates.
- ************************************************************/
+ ************************************************************/ 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
